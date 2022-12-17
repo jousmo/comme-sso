@@ -7,11 +7,13 @@ export class UsersService {
       uuid: '44833f3a-20d0-4542-982a-fe59dfb8a0d4',
       email: 'pepito@test.com',
       password: '12345',
+      roles: ['user'],
     },
     {
       uuid: 'fdf628db-924c-45fc-8285-f6d46af93747',
       email: 'maria@test.com',
       password: '54321',
+      roles: ['user'],
     },
   ];
 
