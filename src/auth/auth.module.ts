@@ -7,6 +7,8 @@ import { AuthController } from './auth.controller';
 import { UsersModule } from '../users/users.module';
 import { LocalStrategy } from './strategies/local.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { GoogleStrategy } from './strategies/google.strategy';
+import { SessionSerializer } from './serializers/session.serializer';
 import config from '../config/env.config';
 
 @Module({
@@ -19,10 +21,16 @@ import config from '../config/env.config';
       }),
       inject: [config.KEY],
     }),
-    PassportModule,
+    PassportModule.register({ session: true }),
     UsersModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, LocalStrategy],
+  providers: [
+    AuthService,
+    JwtStrategy,
+    LocalStrategy,
+    GoogleStrategy,
+    SessionSerializer,
+  ],
 })
 export class AuthModule {}

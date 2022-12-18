@@ -1,3 +1,5 @@
+import * as session from 'express-session';
+import * as passport from 'passport';
 import { NestFactory } from '@nestjs/core';
 import { ConfigType } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
@@ -6,7 +8,11 @@ import config from './config/env.config';
 
 (async () => {
   const app = await NestFactory.create(AppModule);
-  const { globalPrefix, port }: ConfigType<typeof config> = app.get(config.KEY);
+  const {
+    globalPrefix,
+    port,
+    session: { secret, saveUninitialized, resave, cookieMaxAge },
+  }: ConfigType<typeof config> = app.get(config.KEY);
 
   app.setGlobalPrefix(globalPrefix);
   app.useGlobalPipes(
@@ -19,5 +25,17 @@ import config from './config/env.config';
       },
     }),
   );
+  app.use(
+    session({
+      secret,
+      saveUninitialized,
+      resave,
+      cookie: {
+        maxAge: cookieMaxAge,
+      },
+    }),
+  );
+  app.use(passport.initialize());
+  app.use(passport.session());
   await app.listen(port);
 })();

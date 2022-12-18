@@ -4,4 +4,6 @@ export enum RoutesTypes {
 
 export enum SubRoutesTypes {
   login = 'login',
+  googleLogin = 'google/login',
+  googleRedirect = 'google/redirect',
 }

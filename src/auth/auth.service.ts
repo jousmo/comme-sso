@@ -15,10 +15,24 @@ export class AuthService {
       delete user.password;
       return user;
     }
+
     return null;
   }
-  async login(user) {
+
+  async validateSocialUser(email: string, sub: string): Promise<any> {
+    const user = await this.usersService.getUserByEmail(email);
+
+    if (user && user.sub === sub) {
+      delete user.password;
+      return user;
+    }
+
+    return null;
+  }
+
+  async generateJWT(user) {
     const payload = { email: user.email, sub: user.uuid, roles: user.roles };
+
     return {
       access_token: this.jwtService.sign(payload),
     };
